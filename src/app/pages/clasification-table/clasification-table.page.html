@@ -1,0 +1,45 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-title>Clasificación de Ligas</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true" class="ion-padding">
+
+  <ion-header collapse="condense">
+    <ion-toolbar>
+      <ion-title size="large">Clasificación de Ligas</ion-title>
+    </ion-toolbar>
+  </ion-header>
+
+  <ion-item>
+    <ion-select label="Liga" placeholder="Selecciona una liga">
+      <ion-select-option value="4335">LaLiga</ion-select-option>
+      <ion-select-option value="4328">Premier League</ion-select-option>
+      <ion-select-option value="4332">Serie A</ion-select-option>
+    </ion-select>
+  </ion-item>
+
+  <ion-item>
+    <ion-select label="Temporada" placeholder="Selecciona una temporada">
+      <ion-select-option value="2024-2025">2024-2025</ion-select-option>
+    </ion-select>
+  </ion-item>
+
+  <ion-grid>
+    <ion-row class="ion-text-center">
+      <ion-col size="1">#</ion-col>
+      <ion-col size="4">Equipo</ion-col>
+      <ion-col size="1">PJ</ion-col>
+      <ion-col size="1">PG</ion-col>
+      <ion-col size="1">PE</ion-col>
+      <ion-col size="1">PP</ion-col>
+      <ion-col size="2">Goles</ion-col>
+      <ion-col size="1">Pts</ion-col>
+    </ion-row>
+
+    <!-- Aquí luego va el *ngFor con los datos del servicio -->
+
+  </ion-grid>
+
+</ion-content>
