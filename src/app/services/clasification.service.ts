@@ -17,7 +17,6 @@ export class ClasificationService {
   constructor() { }
 
   getFootballLeagues() {
-
     return from(
       CapacitorHttp.get({
         url: `${environment.apiURL}/all_leagues.php`
@@ -39,11 +38,9 @@ export class ClasificationService {
         return [];
       })
     );
-
   }
 
   getSeasons(idLeague: string) {
-
     return from(
       CapacitorHttp.get({
         url: `${environment.apiURL}/search_all_seasons.php?id=${idLeague}`
@@ -61,11 +58,9 @@ export class ClasificationService {
         return [];
       })
     );
-
   }
 
   getTableClasification(idLeague: string, season: string) {
-
     return from(
       CapacitorHttp.get({
         url: `${environment.apiURL}/lookuptable.php?l=${idLeague}&s=${season}`
@@ -83,7 +78,20 @@ export class ClasificationService {
         return [];
       })
     );
+  }
 
+  getTeamLastEvents(idTeam: string) {
+    return from(
+      CapacitorHttp.get({
+        url: `${environment.apiURL}/eventslast.php?id=${idTeam}`
+      }).then((response: HttpResponse) => {
+
+        return response.data['results'] || [];
+
+      }).catch(() => {
+        return [];
+      })
+    );
   }
 
 }

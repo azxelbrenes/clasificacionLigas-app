@@ -33,6 +33,10 @@ export class ClasificationTablePage implements OnInit {
   selectedLeague = '';
   selectedSeason = '';
 
+  teamEvents: any[] = [];
+  selectedTeam = '';
+  showEvents = false;
+
   constructor(private clasificationService: ClasificationService) { }
 
   ngOnInit() {
@@ -50,7 +54,10 @@ export class ClasificationTablePage implements OnInit {
   onLeagueChange() {
     this.seasons = [];
     this.clasification = [];
+    this.teamEvents = [];
     this.selectedSeason = '';
+    this.selectedTeam = '';
+    this.showEvents = false;
 
     if (!this.selectedLeague) {
       return;
@@ -65,6 +72,9 @@ export class ClasificationTablePage implements OnInit {
 
   onSeasonChange() {
     this.clasification = [];
+    this.teamEvents = [];
+    this.selectedTeam = '';
+    this.showEvents = false;
 
     if (!this.selectedLeague || !this.selectedSeason) {
       return;
@@ -78,4 +88,17 @@ export class ClasificationTablePage implements OnInit {
         }
       });
   }
+
+  showTeamHistory(team: IClasification) {
+    this.selectedTeam = team.strTeam;
+    this.showEvents = true;
+    this.teamEvents = [];
+
+    this.clasificationService.getTeamLastEvents(team.idTeam).subscribe({
+      next: (data) => {
+        this.teamEvents = data;
+      }
+    });
+  }
+
 }

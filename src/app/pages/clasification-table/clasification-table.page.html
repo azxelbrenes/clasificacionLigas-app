@@ -55,20 +55,64 @@
       *ngFor="let team of clasification">
 
       <ion-col size="1">{{ team.intRank }}</ion-col>
+
       <ion-col size="4">
-        <img [src]="team.strBadge" width="25">
+        <img
+          [src]="team.strBadge"
+          width="28"
+          style="cursor: pointer;"
+          title="Ver historial de partidos"
+          (click)="showTeamHistory(team)">
+
         {{ team.strTeam }}
       </ion-col>
+
       <ion-col size="1">{{ team.intPlayed }}</ion-col>
       <ion-col size="1">{{ team.intWin }}</ion-col>
       <ion-col size="1">{{ team.intDraw }}</ion-col>
       <ion-col size="1">{{ team.intLoss }}</ion-col>
+
       <ion-col size="2">
         {{ team.intGoalsFor }} - {{ team.intGoalsAgainst }}
       </ion-col>
+
       <ion-col size="1">{{ team.intPoints }}</ion-col>
 
     </ion-row>
   </ion-grid>
+
+  <div *ngIf="showEvents">
+
+    <h2>Últimos partidos de {{ selectedTeam }}</h2>
+
+    <p *ngIf="teamEvents.length === 0">
+      No hay historial disponible para este equipo.
+    </p>
+
+    <ion-grid *ngIf="teamEvents.length > 0">
+
+      <ion-row class="ion-text-center header-row">
+        <ion-col>Fecha</ion-col>
+        <ion-col>Local</ion-col>
+        <ion-col>Visitante</ion-col>
+        <ion-col>Resultado</ion-col>
+      </ion-row>
+
+      <ion-row
+        class="ion-text-center"
+        *ngFor="let event of teamEvents">
+
+        <ion-col>{{ event.dateEvent }}</ion-col>
+        <ion-col>{{ event.strHomeTeam }}</ion-col>
+        <ion-col>{{ event.strAwayTeam }}</ion-col>
+        <ion-col>
+          {{ event.intHomeScore }} - {{ event.intAwayScore }}
+        </ion-col>
+
+      </ion-row>
+
+    </ion-grid>
+
+  </div>
 
 </ion-content>
