@@ -1,0 +1,126 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-title>Clasificación de Ligas</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true" class="ion-padding">
+
+  <ion-item>
+    <ion-select
+      label="Liga"
+      placeholder="Selecciona una liga"
+      [(ngModel)]="selectedLeague"
+      (ionChange)="onLeagueChange()">
+
+      <ion-select-option
+        *ngFor="let league of leagues"
+        [value]="league.idLeague">
+        {{ league.strLeagueAlternate || league.strLeague }}
+      </ion-select-option>
+
+    </ion-select>
+  </ion-item>
+
+  <ion-item>
+    <ion-select
+      label="Temporada"
+      placeholder="Selecciona una temporada"
+      [(ngModel)]="selectedSeason"
+      (ionChange)="onSeasonChange()">
+
+      <ion-select-option
+        *ngFor="let season of seasons"
+        [value]="season.strSeason">
+        {{ season.strSeason }}
+      </ion-select-option>
+
+    </ion-select>
+  </ion-item>
+
+  <ion-list *ngIf="!selectedTeam">
+    <ion-item
+      button
+      *ngFor="let team of clasification"
+      (click)="selectTeam(team)">
+
+      <ion-label>
+        <strong>{{ team.intRank }}.</strong> {{ team.strTeam }}
+        <p>{{ team.intPoints }} pts</p>
+      </ion-label>
+
+      <img
+        [src]="team.strBadge"
+        width="48"
+        slot="end">
+
+    </ion-item>
+  </ion-list>
+
+  <div *ngIf="selectedTeam">
+
+    <ion-item lines="none">
+      <ion-button
+        fill="clear"
+        slot="start"
+        (click)="backToList()">
+        ← Volver
+      </ion-button>
+    </ion-item>
+
+    <div class="ion-text-center ion-padding-bottom">
+      <img [src]="selectedTeam.strBadge" width="70">
+      <h2>{{ selectedTeam.strTeam }}</h2>
+    </div>
+
+    <ion-grid>
+      <ion-row class="ion-text-center">
+        <ion-col size="6">
+          <strong>Posición</strong><br>{{ selectedTeam.intRank }}
+        </ion-col>
+        <ion-col size="6">
+          <strong>Puntos</strong><br>{{ selectedTeam.intPoints }}
+        </ion-col>
+      </ion-row>
+      <ion-row class="ion-text-center">
+        <ion-col size="3">
+          <strong>PJ</strong><br>{{ selectedTeam.intPlayed }}
+        </ion-col>
+        <ion-col size="3">
+          <strong>PG</strong><br>{{ selectedTeam.intWin }}
+        </ion-col>
+        <ion-col size="3">
+          <strong>PE</strong><br>{{ selectedTeam.intDraw }}
+        </ion-col>
+        <ion-col size="3">
+          <strong>PP</strong><br>{{ selectedTeam.intLoss }}
+        </ion-col>
+      </ion-row>
+      <ion-row class="ion-text-center">
+        <ion-col size="6">
+          <strong>Goles a favor</strong><br>{{ selectedTeam.intGoalsFor }}
+        </ion-col>
+        <ion-col size="6">
+          <strong>Goles en contra</strong><br>{{ selectedTeam.intGoalsAgainst }}
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+
+    <h3 class="ion-padding-top">Últimos partidos</h3>
+
+    <p *ngIf="teamEvents.length === 0">
+      No hay historial disponible para este equipo.
+    </p>
+
+    <ion-list *ngIf="teamEvents.length > 0">
+      <ion-item *ngFor="let event of teamEvents">
+        <ion-label>
+          <p>{{ event.dateEvent }}</p>
+          {{ event.strHomeTeam }} {{ event.intHomeScore }} - {{ event.intAwayScore }} {{ event.strAwayTeam }}
+        </ion-label>
+      </ion-item>
+    </ion-list>
+
+  </div>
+
+</ion-content>
