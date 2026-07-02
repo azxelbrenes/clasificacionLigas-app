@@ -6,28 +6,40 @@
 
 <ion-content [fullscreen]="true" class="ion-padding">
 
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">Clasificación de Ligas</ion-title>
-    </ion-toolbar>
-  </ion-header>
-
   <ion-item>
-    <ion-select label="Liga" placeholder="Selecciona una liga">
-      <ion-select-option value="4335">LaLiga</ion-select-option>
-      <ion-select-option value="4328">Premier League</ion-select-option>
-      <ion-select-option value="4332">Serie A</ion-select-option>
+    <ion-select
+      label="Liga"
+      placeholder="Selecciona una liga"
+      [(ngModel)]="selectedLeague"
+      (ionChange)="onLeagueChange()">
+
+      <ion-select-option
+        *ngFor="let league of leagues"
+        [value]="league.idLeague">
+        {{ league.strLeagueAlternate || league.strLeague }}
+      </ion-select-option>
+
     </ion-select>
   </ion-item>
 
   <ion-item>
-    <ion-select label="Temporada" placeholder="Selecciona una temporada">
-      <ion-select-option value="2024-2025">2024-2025</ion-select-option>
+    <ion-select
+      label="Temporada"
+      placeholder="Selecciona una temporada"
+      [(ngModel)]="selectedSeason"
+      (ionChange)="onSeasonChange()">
+
+      <ion-select-option
+        *ngFor="let season of seasons"
+        [value]="season.strSeason">
+        {{ season.strSeason }}
+      </ion-select-option>
+
     </ion-select>
   </ion-item>
 
   <ion-grid>
-    <ion-row class="ion-text-center">
+    <ion-row class="ion-text-center header-row">
       <ion-col size="1">#</ion-col>
       <ion-col size="4">Equipo</ion-col>
       <ion-col size="1">PJ</ion-col>
@@ -38,8 +50,25 @@
       <ion-col size="1">Pts</ion-col>
     </ion-row>
 
-    <!-- Aquí luego va el *ngFor con los datos del servicio -->
+    <ion-row
+      class="ion-text-center"
+      *ngFor="let team of clasification">
 
+      <ion-col size="1">{{ team.intRank }}</ion-col>
+      <ion-col size="4">
+        <img [src]="team.strBadge" width="25">
+        {{ team.strTeam }}
+      </ion-col>
+      <ion-col size="1">{{ team.intPlayed }}</ion-col>
+      <ion-col size="1">{{ team.intWin }}</ion-col>
+      <ion-col size="1">{{ team.intDraw }}</ion-col>
+      <ion-col size="1">{{ team.intLoss }}</ion-col>
+      <ion-col size="2">
+        {{ team.intGoalsFor }} - {{ team.intGoalsAgainst }}
+      </ion-col>
+      <ion-col size="1">{{ team.intPoints }}</ion-col>
+
+    </ion-row>
   </ion-grid>
 
 </ion-content>
