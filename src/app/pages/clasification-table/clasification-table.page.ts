@@ -4,7 +4,8 @@ import { FormsModule } from '@angular/forms';
 import {
   IonContent, IonHeader, IonTitle, IonToolbar,
   IonItem, IonSelect, IonSelectOption,
-  IonGrid, IonRow, IonCol
+  IonGrid, IonRow, IonCol,
+  IonList, IonLabel, IonButton
 } from '@ionic/angular/standalone';
 
 import { ClasificationService } from '../../services/clasification.service';
@@ -21,6 +22,7 @@ import { IClasification } from '../../models/clasification.model';
     IonContent, IonHeader, IonTitle, IonToolbar,
     IonItem, IonSelect, IonSelectOption,
     IonGrid, IonRow, IonCol,
+    IonList, IonLabel, IonButton,
     CommonModule, FormsModule
   ]
 })
@@ -34,8 +36,7 @@ export class ClasificationTablePage implements OnInit {
   selectedSeason = '';
 
   teamEvents: any[] = [];
-  selectedTeam = '';
-  showEvents = false;
+  selectedTeam: IClasification | null = null;
 
   constructor(private clasificationService: ClasificationService) { }
 
@@ -56,8 +57,7 @@ export class ClasificationTablePage implements OnInit {
     this.clasification = [];
     this.teamEvents = [];
     this.selectedSeason = '';
-    this.selectedTeam = '';
-    this.showEvents = false;
+    this.selectedTeam = null;
 
     if (!this.selectedLeague) {
       return;
@@ -73,8 +73,7 @@ export class ClasificationTablePage implements OnInit {
   onSeasonChange() {
     this.clasification = [];
     this.teamEvents = [];
-    this.selectedTeam = '';
-    this.showEvents = false;
+    this.selectedTeam = null;
 
     if (!this.selectedLeague || !this.selectedSeason) {
       return;
@@ -89,9 +88,17 @@ export class ClasificationTablePage implements OnInit {
       });
   }
 
+  selectTeam(team: IClasification) {
+    this.selectedTeam = team;
+    this.showTeamHistory(team);
+  }
+
+  backToList() {
+    this.selectedTeam = null;
+    this.teamEvents = [];
+  }
+
   showTeamHistory(team: IClasification) {
-    this.selectedTeam = team.strTeam;
-    this.showEvents = true;
     this.teamEvents = [];
 
     this.clasificationService.getTeamLastEvents(team.idTeam).subscribe({
